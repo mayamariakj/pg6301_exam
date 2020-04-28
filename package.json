@@ -39,16 +39,6 @@
     "webpack-cli": "3.3.10",
     "webpack-dev-server": "3.9.0"
   },
-  "jest": {
-    "collectCoverageFrom": [
-      "src/**/*.(js|jsx)"
-    ],
-    "setupFilesAfterEnv": [
-      "<rootDir>/tests/jest-setup.js"
-    ],
-    "testEnvironment": "node",
-    "testRegex": "tests/.*-test\\.(js|jsx)$"
-  },
   "dependencies": {
     "cors": "^2.8.5",
     "express": "4.17.1",
@@ -68,5 +58,15 @@
     "test": "jest --coverage",
     "watch:client": "webpack --watch --mode development",
     "watch:server": "nodemon src/server/server.js --watch src/server --watch public/bundle.js"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.(js|jsx)"
+    ],
+    "setupFilesAfterEnv": [
+      "<rootDir>/tests/jest-setup.js"
+    ],
+    "testEnvironment": "node",
+    "testRegex": "tests/.*-test\\.(js|jsx)$"
   }
 }

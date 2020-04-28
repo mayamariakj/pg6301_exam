@@ -38,7 +38,7 @@ export class Home extends React.Component {
 
     return (
       <div>
-        <p>Jeg er forsiden</p>
+        {userId ? <p> Welcome, {userId} </p>: <p>Sign in to claim </p>}
         <div className="container">
           <div className="row">
             {

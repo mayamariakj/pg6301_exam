@@ -1,7 +1,5 @@
 import React from 'react';
 import {Link, withRouter} from 'react-router-dom';
-import {Login} from "./login";
-import pokemon from "./pokemon";
 
 export class Home extends React.Component {
   constructor(props) {
@@ -20,7 +18,6 @@ export class Home extends React.Component {
   }
 
   fetchPokemons = async () =>{
-
     const request = await fetch("/api/pokemons",{
       method: "get",
     });
@@ -28,35 +25,59 @@ export class Home extends React.Component {
       const response = await request.json();
       this.setState({pokemons: response});
     }
+  };
 
+  claimPokemon = async (id, index) => {
+    const { pokemons } = this.state;
+    const url = `/api/pokemons/${id}/claim`;
+    const payload = JSON.stringify({userId: this.props.userId});
+
+    const req = await fetch(url, {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: payload,
+    });
+    console.log(id);
+    if (req.status === 201) {
+      pokemons.splice(index, 1);
+      this.setState({pokemons: pokemons});
+    }
 
   };
+
 
   render() {
     const { pokemons } = this.state;
     const { userId } = this.props;
 
+    console.log(userId);
+
+    const displayList = pokemons.length;
     return (
       <div>
-        {userId ? <p> Welcome, {userId} </p>: <p>Sign in to claim </p>}
         <div className="container">
           <div className="row">
             {
-              pokemons.map((pokemon, index) => {
+              displayList ? pokemons.map((pokemon, index) => {
                 return (
-                  <div className="col-sm-4" key={index} onClick={() => console.log(pokemon)}>
+                  <div className="col-sm-4" key={index}>
                     <div className="card" style={{width: "18rem"}}>
                       <img src={pokemon.image} className="card-img-top" alt="..." />
                         <div className="card-body">
                           <h5 className="card-title">{pokemon.title}</h5>
                           <p className="card-text">{pokemon.description}</p>
-                          {userId ? <a href="#" className="btn btn-primary">Go somewhere</a> : null}
+                          {userId ? <button
+                            className="btn"
+                            onClick={() => this.claimPokemon(pokemon.id, index)}
+                          >Claim</button> : null}
                         </div>
                     </div>
                   </div>
                 )
               })
-            }
+                : <h3>There are no pokemons to claim</h3> }
           </div>
         </div>
 

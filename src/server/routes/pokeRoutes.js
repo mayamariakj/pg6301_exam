@@ -1,11 +1,20 @@
+const {getPokemonsNotClaimedByTheUser} =  require("../pokemodRepository.js");
+
 const pokeRepo = require('../pokemodRepository.js');
-const passport = require('passport');
+const userRepo = require('../userRepository.js');
 
 module.exports = app => {
   app.get("/api/pokemons", (req, res) => {
+
     const allPokemons = pokeRepo.getAllPokemons();
+
+    if (req.user) {
+      const uniq = getPokemonsNotClaimedByTheUser(req.user.id);
+      return res.status(200).json(uniq);
+    }
+
     res.status(200).json(allPokemons);
-  })
+  });
 
   app.get('/api/pokemons/:id', (req, res) => {
     const pokemon = pokeRepo.getPokemon(req.params['id']);
@@ -25,6 +34,18 @@ module.exports = app => {
     res.status(201);
     res.header('location', '/api/pokemons/' + id);
     res.send();
+  });
+
+  app.post('/api/pokemons/:id/claim',(req, res) =>{
+    const dto = req.body;
+    const id = req.params['id'];
+    const claimed = userRepo.addClaimed(dto.userId, id);
+
+    if(claimed) {
+      res.status(201).send()
+    }else{
+      res.status(400).send()
+    }
   });
 
   app.put('/api/pokemons/:id',(req, res) => {

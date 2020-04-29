@@ -14,7 +14,6 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-require("./routes/pokeRoutes.js")(app);
 const ews = require('express-ws')(app);
 const WS = require ('ws');
 
@@ -81,8 +80,6 @@ passport.serializeUser(function (user, done) {
 passport.deserializeUser(function (id, done) {
     const user = userRepo.getUser(id);
 
-
-
     if (user) {
         done(null, user);
     } else {
@@ -94,6 +91,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/', routes);
+require("./routes/pokeRoutes.js")(app);
 
 
 /*WebSocket

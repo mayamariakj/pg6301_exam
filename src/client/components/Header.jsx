@@ -26,7 +26,7 @@ export class Header extends React.Component {
     }
 
     this.props.updateLoggedInUserId(null);
-    this.props.history.push('/');
+    window.location.assign('/');
   };
 
   renderLoggedIn(userId) {
@@ -34,8 +34,13 @@ export class Header extends React.Component {
       <div className='header'>
         <h3 className='notLoggedInMsg'>Welcome User {userId}</h3>
 
+        <div className='btnPart'>
         <div className='logout btn' onClick={this.doLogout} id='logoutBtnId'>
           Logout
+        </div>
+        <NavLink className='btn' to='/profile'>
+          Profile
+        </NavLink>
         </div>
       </div>
     );
@@ -44,7 +49,7 @@ export class Header extends React.Component {
   renderNotLoggedIn() {
     return (
       <div className='header'>
-        <div className='notLoggedInMsg'>You are not logged in</div>
+        <div className='notLoggedInMsg'>Log in to claim</div>
         <div className='btnPart'>
           <NavLink className='btn' to='/login'>
             LogIn
@@ -58,7 +63,8 @@ export class Header extends React.Component {
   }
 
   render() {
-    const userId = this.props.userId;
+
+    const {userId} = this.props;
 
     let content;
     if (!userId) {

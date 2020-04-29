@@ -3,6 +3,7 @@ const router = express.Router();
 const passport = require('passport');
 
 const Repository = require('./userRepository.js');
+const pokeRepo = require('./pokemodRepository.js');
 
 router.post('/api/login', passport.authenticate('local'), (req, res) => {
     res.status(204).send();
@@ -43,6 +44,14 @@ router.get('/api/user', (req, res) => {
     }
 
     res.status(401).send();
+});
+
+router.get('/api/user/claimed', (req, res) => {
+    if (!req.user) {
+        return res.status(404).send();
+    }
+    const claimedPokemons = pokeRepo.getClaimedPokemons(req.user.id);
+    res.status(200).send(claimedPokemons);
 });
 
 module.exports = router;

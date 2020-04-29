@@ -13,7 +13,7 @@ async function logUserIn(){
 
 
 describe("Testing application authentication", () => {
-  test("Test get all", async () => {
+  it("Test get all", async () => {
 
     const response = await request(app)
       .get('/api/pokemons');
@@ -21,7 +21,7 @@ describe("Testing application authentication", () => {
     expect(response.statusCode).toBe(200);
     expect(response.body.length).toBe(8);
   });
-  test("Test retrieve each single pokemon", async () => {
+  it("Test retrieve each single pokemon", async () => {
 
     const responseAll = await request(app).get('/api/pokemons');
     expect(responseAll.statusCode).toBe(200);
@@ -38,7 +38,7 @@ describe("Testing application authentication", () => {
     }
   });
 
-  test("Test create pokemon", async () => {
+  it("Test create pokemon", async () => {
 
     let responseAll = await request(app).get('/api/pokemons');
     const n = responseAll.body.length;
@@ -64,7 +64,7 @@ describe("Testing application authentication", () => {
     expect(resGet.body.title).toBe(title);
   });
 
-  test("Delete all pokemons", async () =>{
+  it("Delete all pokemons", async () =>{
 
     let responseAll = await request(app).get('/api/pokemons');
     expect(responseAll.statusCode).toBe(200);
@@ -83,6 +83,4 @@ describe("Testing application authentication", () => {
     expect(responseAll.statusCode).toBe(200);
     expect(responseAll.body.length).toBe(0);
   });
-
-
 });

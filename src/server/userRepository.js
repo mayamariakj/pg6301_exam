@@ -28,14 +28,23 @@ function createUser(id, password){
     return true;
 }
 
-function addClaimed (name, id){
+function addClaimed(name, id){
     const user = getUser(name);
+
     if (user) {
         user.claimed.push(id);
         return true;
     }
 
     return false;
+}
+
+function getClaimed(name){
+    const user = getUser(name);
+    if (user) {
+        return user.claimed;
+    }
+    return [];
 }
 
 function resetAllUsers(){
@@ -46,9 +55,11 @@ function initUser(){
 }
 
 module.exports = {
+    addClaimed,
     verifyUser,
     createUser,
     getUser,
+    getClaimed,
     resetAllUsers,
     initUser,
 };

@@ -1,5 +1,7 @@
 
 const pokemons = new Map();
+const difference = require('lodash/difference.js');
+const userRepo = require('./userRepository.js');
 
 let counter = 0;
 
@@ -38,6 +40,24 @@ function deletePokemionId(id) {
     return pokemons.delete(id);
 }
 
+function getPokemonsNotClaimedByTheUser(username) {
+    const allPokemons = getAllPokemons();
+    const unclaimed = [];
+    const user = userRepo.getUser(username);
+
+    const idsOfPokemons = allPokemons.map(pokemon => pokemon.id);
+
+    const diff = difference(idsOfPokemons, user.claimed);
+
+    diff.forEach(id => {
+        const poke = getPokemon(id);
+        unclaimed.push(poke);
+    });
+
+    return unclaimed;
+
+}
+
 function getPokemon(id) {
     return pokemons.get(id);
 }
@@ -45,6 +65,7 @@ function getPokemon(id) {
 function getAllPokemons() {
     return Array.from(pokemons.values());
 }
+
 
 function updatePokemon(pokemon) {
     if (!pokemons.has(pokemon.id)) {
@@ -58,12 +79,20 @@ function getAllPokemonsSince(day) {
     return pokemons.values().filter((r) => r.day >= day);
 }
 
+function getClaimedPokemons(name) {
+    const arr = userRepo.getClaimed(name);
+
+    return arr.map(id => getPokemon(id));
+}
+
 
 module.exports = {
     initWithSomePokemons,
     getAllPokemons,
     getAllPokemonsSince,
+    getPokemonsNotClaimedByTheUser,
     createNewPokemon,
+    getClaimedPokemons,
     getPokemon,
     updatePokemon,
     deletePokemionId,

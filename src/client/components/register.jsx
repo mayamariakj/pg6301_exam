@@ -69,6 +69,7 @@ export class Register extends React.Component {
       return;
     }
 
+
     this.setState({ errorMsg: null });
     this.props.updateLoggedInUserId(userId);
     this.props.history.push('/');
@@ -124,6 +125,9 @@ export class Register extends React.Component {
           <button className='btn' onClick={this.doRegister} id='RegisterBtn'>
             Register
           </button>
+          <div className='btn' onClick={this.props.history.goBack} id='loginBtn'>
+            Back
+          </div>
         </div>
       </div>
     );

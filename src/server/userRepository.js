@@ -51,7 +51,7 @@ function resetAllUsers(){
     users.clear();
 }
 function initUser(){
-    createUser("Maya", "1234")
+    createUser("Test", "1234")
 }
 
 module.exports = {

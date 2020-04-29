@@ -1,5 +1,6 @@
 /*
   https://github.com/arcuri82/web_development_and_api_design/blob/master/exercise-solutions/quiz-game/part-10/tests/client/home-test.jsx
+  i have looked at your tests and modified them to my code
 */
 
 import {overrideFetch, asyncCheckCondition} from "../mytest-utils";

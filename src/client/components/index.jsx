@@ -63,7 +63,7 @@ export class App extends React.Component {
                 <Register
                   {...props}
                 userId={this.state.userId}
-                updateLoggedInuserId={this.updateLoggedInUserId}/>}
+                updateLoggedInUserId={this.updateLoggedInUserId}/>}
             />
             <Route
               exact={true}
@@ -72,7 +72,7 @@ export class App extends React.Component {
                 <Home
                   {...props}
                   userId={this.state.userId}
-                  updateLoggedInuserId={this.updateLoggedInUserId}/>}
+                  updateLoggedInUserId={this.updateLoggedInUserId}/>}
             />
             <Route
               exact={true}

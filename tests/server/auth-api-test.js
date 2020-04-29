@@ -1,6 +1,8 @@
 const request = require('supertest');
 const {app} = require('../../src/server/app.js');
 
+let counter = 0;
+
 async function logUserIn(){
   return await request(app)
     .post('/api/login')
@@ -14,11 +16,11 @@ describe("Testing application authentication", () => {
 
     expect(response.statusCode).toBe(401)
   });
-//andrea sin
+//andrea sine -----------------------------------------------------
   test("Test fail access data of non-existent user", async () =>{
 
     const response = await request(app)
-      .get('/api/user');
+      .get('/api/user')
 
     expect(response.statusCode).toBe(401);
   });
@@ -28,7 +30,7 @@ describe("Testing application authentication", () => {
     const userId = 'foo_' + (counter++);
 
     let response = await request(app)
-      .post('/api/signup')
+      .post('/api/register')
       .send({userId, password:"bar"})
       .set('Content-Type', 'application/json');
 
@@ -41,6 +43,50 @@ describe("Testing application authentication", () => {
 
     expect(response.statusCode).toBe(401);
   });
+
+  //andrea---------------------
+  test("Test fail login", async () =>{
+
+    const response = await request(app)
+      .post('/api/login')
+      .send({userId:'foo_' + (counter++), password:"bar"})
+      .set('Content-Type', 'application/json');
+
+    expect(response.statusCode).toBe(401);
+  });
+
+  test("Test fail access data of non-existent user", async () =>{
+
+    const response = await request(app)
+      .get('/api/user');
+
+    expect(response.statusCode).toBe(401);
+  });
+  test("Test create user and get data", async () => {
+
+    const userId = 'foo_' + (counter++);
+
+    //use same cookie jar for the HTTP requests
+    const agent = request.agent(app);
+
+    let response = await agent
+      .post('/api/register')
+      .send({userId, password:"bar"})
+      .set('Content-Type', 'application/json');
+
+    expect(response.statusCode).toBe(201);
+
+
+    //using same cookie got from previous HTTP call
+    response = await agent.get('/api/user');
+
+    expect(response.statusCode).toBe(200);
+    expect(response.body.userId).toBe(userId);
+    //don't really want to return the password...
+    expect(response.body.password).toBeUndefined();
+  });
+
+
 
 
 })

@@ -43,7 +43,6 @@ function resetAllUsers(){
 }
 function initUser(){
     createUser("Maya", "1234")
-
 }
 
 module.exports = {

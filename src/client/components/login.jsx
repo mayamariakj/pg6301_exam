@@ -51,7 +51,9 @@ export class Login extends React.Component{
         }
 
         if ( response.status === 401){
-            this.setState({errorMsg: 'Invalid userId/password'});
+            this.setState({errorMsg: 'Invalid userId/password'}, () => {
+                console.log(this.state.errorMsg);
+            });
             return;
         }
         if (response.status !== 204){
@@ -68,14 +70,6 @@ export class Login extends React.Component{
     };
 
     render(){
-        let error = <div/>;
-        if(this.state.errorMsg){
-            error = (
-                <div className ='errorMsg'>
-                    <p>{this.state.errorMgs}</p>
-                </div>
-            );
-        }
 
         return (
           <div>
@@ -99,7 +93,7 @@ export class Login extends React.Component{
                     />
                 </div>
 
-                {error}
+                {this.state.errorMsg ? this.state.errorMsg : null}
 
                 <div className='loginRegisterArea'>
                     <div className='btn' onClick={this.doLogIn} id='loginBtn'>

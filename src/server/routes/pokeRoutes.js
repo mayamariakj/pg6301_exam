@@ -1,4 +1,5 @@
 const pokeRepo = require('../pokemodRepository.js');
+const passport = require('passport');
 
 module.exports = app => {
   app.get("/api/pokemons", (req, res) => {
@@ -22,7 +23,7 @@ module.exports = app => {
     const id = pokeRepo.createNewPokemon(dto.desc, dto.title, dto.value);
 
     res.status(201);
-    res.header('location', '/api/recipes/' + id);
+    res.header('location', '/api/pokemons/' + id);
     res.send();
   });
 
@@ -54,5 +55,14 @@ module.exports = app => {
     }
     res.send();
   });
+
+  function ensureAuth(req, res, next) {
+
+    /*console.log(req.isAuthenticated());
+    if (req.isAuthenticated()) {
+      return next();
+    }
+    res.redirect('/login'); */
+  }
 
 };

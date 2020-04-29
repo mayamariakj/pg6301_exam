@@ -2,13 +2,13 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 
-const Repository = require('./userRepository');
+const Repository = require('./userRepository.js');
 
 router.post('/api/login', passport.authenticate('local'), (req, res) => {
     res.status(204).send();
 });
 
-router.post('/api/signup', function (req, res) {
+router.post('/api/register', function (req, res) {
     const created = Repository.createUser(req.body.userId, req.body.password);
 
     if (!created) {
